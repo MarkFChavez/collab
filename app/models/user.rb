@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_many :projects, dependent: :destroy
+  has_many :memberships
+  has_many :involved_projects, through: :memberships, source: :project
 
   def self.from_omniauth(auth)
   	User.where(auth.slice(:provider, :uid)).first || create_from_omniauth(auth)

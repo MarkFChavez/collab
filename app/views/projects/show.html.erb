@@ -1,15 +1,45 @@
-<div class="row">
-	<div class="large-12 columns">
-		<h3> <%= @project.name %> </h3>
-	</div>
-</div>
 
 <div class="row">
-	<div class="large-9 columns">
-		Post what you are doing here...
+	<div class="large-8 columns">
+		<h3> <%= @project.name %> <small><%= @project.description.downcase.truncate 100 %></small> </h3>
+		<%= form_for [@project,@task] do |f| %>
+			<%= f.text_area :task, placeholder:"task name" %>
+			<%= f.submit "Add Task", class:"small button" %>
+		<% end %>
+
+		<div>
+			<% @project.tasks.each do |task| %>
+				<div>
+					<blockquote>
+						<%= image_tag task.user.image %> <%= task.user.name %> (<%= task.created_at.strftime("%b %d %Y") %>)
+					</blockquote>
+					<p>
+						<%= task.task %>
+					</p>
+				</div>
+			<% end %>
+		</div>
 	</div>
 
-	<div class="large-3 columns">
-		List of members
+	<div class="large-4 columns">
+		<h3>Members <small><%= link_to "add members", memberships_path(project_id: @project) %></small></h3>
+
+		<div style="max-height:300px;overflow:auto">
+			<ul>
+				<% @project.members.each do |mem| %>
+					<li> <%= image_tag mem.image if mem.image %> <%= mem.name %> </li>
+				<% end %>
+			</ul>
+		</div>
+
+		<div>
+			<h3>Involved Projects</h3>
+			
+			<ul>
+			<% current_user.involved_projects.each do |project| %>
+				<li> <%= project.name %> <small>created by <%= project.owner.name %></small> </li>
+			<% end %>
+			</ul>
+		</div>
 	</div>
 </div>

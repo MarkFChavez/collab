@@ -1,6 +1,10 @@
 Collab::Application.routes.draw do
 
-  resources :projects
+  resources :projects do
+    resources :tasks
+  end
+
+  resources :memberships
 
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
   

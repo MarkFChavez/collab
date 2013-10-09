@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="large-12 columns">
+		<h3>Add Members for <%= @project.name %></h3>
+	</div>
+</div>
+
+<div class="row">
+	<div class="large-12 columns">
+		<ul>
+			<% @members.each do |mem| %>
+				<li>
+					<%= image_tag mem.image if mem.image %> <%= mem.name %> 
+					<% if @project.members.include?(mem) %>
+						Already a member
+					<% else %>
+						<%= link_to "Add member", memberships_path(project_id:@project, user_id:mem), method: :post %>
+					<% end %>
+				</li>
+			<% end %>
+		</ul>
+		
+	</div>
+</div>
